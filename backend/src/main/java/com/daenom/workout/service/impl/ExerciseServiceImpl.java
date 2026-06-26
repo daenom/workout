@@ -9,6 +9,7 @@ import com.daenom.workout.dto.exercise.CreateExerciseRequest;
 import com.daenom.workout.dto.exercise.ExerciseResponse;
 import com.daenom.workout.entity.Exercise;
 import com.daenom.workout.exception.DuplicateResourceException;
+import com.daenom.workout.exception.ResourceNotFoundException;
 import com.daenom.workout.mapper.ExerciseMapper;
 import com.daenom.workout.repository.ExerciseRepository;
 import com.daenom.workout.service.ExerciseService;
@@ -26,7 +27,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         
         exerciseRepository.findByName(request.name())
                 .ifPresent(exercise -> {
-                throw new DuplicateResourceException("Exercise already exists!");
+                throw new DuplicateResourceException("Exercise already exists with name: " + request.name());
             });
 
         Exercise exercise = exerciseMapper.toEntity(request);
@@ -36,24 +37,36 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public List<ExerciseResponse> getAllExercises() {
-        // Implementation for retrieving all exercises
-        return null;
+        List<Exercise> exercises = exerciseRepository.findAll();
+        return exercises.stream()
+                .map(exerciseMapper::toResponse)
+                .toList();
     }
 
     @Override
     public ExerciseResponse getExerciseById(Long id) {
-        // Implementation for retrieving an exercise by ID
-        return null;
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise not found with id: " + id));
+        return exerciseMapper.toResponse(exercise);
     }
 
     @Override
     public ExerciseResponse updateExercise(Long id, CreateExerciseRequest request) {
-        // Implementation for updating an exercise
-        return null;
+        Exercise existingExercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise not found with id: " + id));
+
+        existingExercise.setName(request.name());
+        existingExercise.setDescription(request.description());
+        existingExercise.setInstructions(request.instructions());
+
+        Exercise updatedExercise = exerciseRepository.save(existingExercise);
+        return exerciseMapper.toResponse(updatedExercise);
     }
 
     @Override
     public void deleteExercise(Long id) {
-        // Implementation for deleting an exercise
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise not found with id: " + id));
+        exerciseRepository.delete(exercise);
     }
 }
