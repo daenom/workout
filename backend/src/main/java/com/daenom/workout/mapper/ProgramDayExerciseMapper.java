@@ -14,8 +14,6 @@ public class ProgramDayExerciseMapper {
                 .exerciseId(request.exerciseId())
                 .orderIndex(request.orderIndex())
                 .sets(request.sets())
-                .minReps(request.minReps())
-                .maxReps(request.maxReps())
                 .build();
     }
 
@@ -25,9 +23,7 @@ public class ProgramDayExerciseMapper {
                 programDayExercise.getProgramDayId(),
                 programDayExercise.getExerciseId(),
                 programDayExercise.getOrderIndex(),
-                programDayExercise.getSets(),
-                programDayExercise.getMinReps(),
-                programDayExercise.getMaxReps()
+                programDayExercise.getSets()
         );
     }
 }

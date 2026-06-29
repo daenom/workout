@@ -1,7 +1,14 @@
 package com.daenom.workout.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import com.daenom.workout.model.ExerciseSet;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,9 +38,7 @@ public class ProgramDayExercise {
 
     private Integer orderIndex;
 
-    private Integer sets;
-
-    private List<Integer> minReps;
-
-    private List<Integer> maxReps;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private List<ExerciseSet> sets = new ArrayList<>();
 }
