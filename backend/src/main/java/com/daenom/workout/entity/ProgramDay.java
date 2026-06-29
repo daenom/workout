@@ -1,6 +1,6 @@
 package com.daenom.workout.entity;
 
-import com.daenom.workout.enums.ProgramDayType;
+import com.daenom.workout.model.enums.ProgramDayType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,6 +1,6 @@
 package com.daenom.workout.dto.programDay;
 
-import com.daenom.workout.enums.ProgramDayType;
+import com.daenom.workout.model.enums.ProgramDayType;
 
 public record ProgramDayResponse(
     Long id,
