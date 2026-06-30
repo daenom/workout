@@ -3,16 +3,16 @@ package com.daenom.workout.service;
 import java.util.List;
 
 import com.daenom.workout.dto.programDay.CreateProgramDayRequest;
-import com.daenom.workout.dto.programDay.ProgramDayResponse;
+import com.daenom.workout.entity.ProgramDay;
 
 public interface ProgramDayService {
-    ProgramDayResponse createProgramDay(CreateProgramDayRequest request);
+    ProgramDay createProgramDay(CreateProgramDayRequest request);
 
-    List<ProgramDayResponse> getProgramDaysByProgramId(Long programId);
+    List<ProgramDay> getProgramDaysByProgramId(Long programId);
 
-    ProgramDayResponse getProgramDayById(Long id);
+    ProgramDay getProgramDayById(Long id);
 
-    ProgramDayResponse updateProgramDay(Long id, CreateProgramDayRequest request);
+    ProgramDay updateProgramDay(Long id, CreateProgramDayRequest request);
 
     void deleteProgramDay(Long id);
 }

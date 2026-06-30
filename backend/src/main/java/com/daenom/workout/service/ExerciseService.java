@@ -3,16 +3,16 @@ package com.daenom.workout.service;
 import java.util.List;
 
 import com.daenom.workout.dto.exercise.CreateExerciseRequest;
-import com.daenom.workout.dto.exercise.ExerciseResponse;
+import com.daenom.workout.entity.Exercise;
 
 public interface ExerciseService {
-    ExerciseResponse createExercise(CreateExerciseRequest request);
+    Exercise createExercise(CreateExerciseRequest request);
 
-    List<ExerciseResponse> getAllExercises();
+    List<Exercise> getAllExercises();
 
-    ExerciseResponse getExerciseById(Long id);
+    Exercise getExerciseById(Long id);
 
-    ExerciseResponse updateExercise(Long id, CreateExerciseRequest request);
+    Exercise updateExercise(Long id, CreateExerciseRequest request);
 
     void deleteExercise(Long id);
 }

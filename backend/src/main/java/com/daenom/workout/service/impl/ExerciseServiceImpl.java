@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.daenom.workout.dto.exercise.CreateExerciseRequest;
-import com.daenom.workout.dto.exercise.ExerciseResponse;
 import com.daenom.workout.entity.Exercise;
 import com.daenom.workout.exception.DuplicateResourceException;
 import com.daenom.workout.exception.ResourceNotFoundException;
@@ -23,7 +22,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseRepository exerciseRepository;
     private final ExerciseMapper exerciseMapper;
     @Override
-    public ExerciseResponse createExercise(CreateExerciseRequest request) {
+    public Exercise createExercise(CreateExerciseRequest request) {
         
         exerciseRepository.findByName(request.name())
                 .ifPresent(exercise -> {
@@ -31,27 +30,22 @@ public class ExerciseServiceImpl implements ExerciseService {
             });
 
         Exercise exercise = exerciseMapper.toEntity(request);
-        Exercise savedExercise = exerciseRepository.save(exercise);
-        return exerciseMapper.toResponse(savedExercise);
+        return exerciseRepository.save(exercise);
     }
 
     @Override
-    public List<ExerciseResponse> getAllExercises() {
-        List<Exercise> exercises = exerciseRepository.findAll();
-        return exercises.stream()
-                .map(exerciseMapper::toResponse)
-                .toList();
+    public List<Exercise> getAllExercises() {
+        return exerciseRepository.findAll();
     }
 
     @Override
-    public ExerciseResponse getExerciseById(Long id) {
-        Exercise exercise = exerciseRepository.findById(id)
+    public Exercise getExerciseById(Long id) {
+        return exerciseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise not found with id: " + id));
-        return exerciseMapper.toResponse(exercise);
     }
 
     @Override
-    public ExerciseResponse updateExercise(Long id, CreateExerciseRequest request) {
+    public Exercise updateExercise(Long id, CreateExerciseRequest request) {
         Exercise existingExercise = exerciseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise not found with id: " + id));
 
@@ -59,8 +53,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         existingExercise.setDescription(request.description());
         existingExercise.setInstructions(request.instructions());
 
-        Exercise updatedExercise = exerciseRepository.save(existingExercise);
-        return exerciseMapper.toResponse(updatedExercise);
+        return exerciseRepository.save(existingExercise);
     }
 
     @Override

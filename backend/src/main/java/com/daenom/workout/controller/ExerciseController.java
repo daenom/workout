@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 
 import com.daenom.workout.dto.exercise.CreateExerciseRequest;
 import com.daenom.workout.dto.exercise.ExerciseResponse;
+import com.daenom.workout.entity.Exercise;
+import com.daenom.workout.mapper.ExerciseMapper;
 import com.daenom.workout.service.ExerciseService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,26 +28,32 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ExerciseController {
     private final ExerciseService exerciseService;
+    private final ExerciseMapper exerciseMapper;
     
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public ExerciseResponse createExercise(@RequestBody CreateExerciseRequest request) {
-        return exerciseService.createExercise(request);
+        Exercise exercise = exerciseService.createExercise(request);
+        return exerciseMapper.toResponse(exercise);
     }
 
     @GetMapping("/all")
     public List<ExerciseResponse> getAllExercises() {
-        return exerciseService.getAllExercises();
+        return exerciseService.getAllExercises().stream()
+                .map(exerciseMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public ExerciseResponse getExerciseById(@PathVariable Long id) {
-        return exerciseService.getExerciseById(id);
+        Exercise exercise = exerciseService.getExerciseById(id);
+        return exerciseMapper.toResponse(exercise);
     }
 
     @PutMapping("/{id}")
     public ExerciseResponse updateExercise(@PathVariable Long id, @RequestBody CreateExerciseRequest request) {
-        return exerciseService.updateExercise(id, request);
+        Exercise exercise = exerciseService.updateExercise(id, request);
+        return exerciseMapper.toResponse(exercise);
     }
 
     @DeleteMapping("/{id}")

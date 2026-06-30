@@ -3,16 +3,16 @@ package com.daenom.workout.service;
 import java.util.List;
 
 import com.daenom.workout.dto.program.CreateProgramRequest;
-import com.daenom.workout.dto.program.ProgramResponse;
+import com.daenom.workout.entity.Program;
 
 public interface ProgramService {
-    ProgramResponse createProgram(CreateProgramRequest request);
+    Program createProgram(CreateProgramRequest request);
 
-    List<ProgramResponse> getAllPrograms();
+    List<Program> getAllPrograms();
 
-    ProgramResponse getProgramById(Long id);
+    Program getProgramById(Long id);
 
-    ProgramResponse updateProgram(Long id, CreateProgramRequest request);
+    Program updateProgram(Long id, CreateProgramRequest request);
 
     void deleteProgram(Long id);
 }

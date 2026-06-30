@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.daenom.workout.dto.program.CreateProgramRequest;
-import com.daenom.workout.dto.program.ProgramResponse;
 import com.daenom.workout.entity.Program;
 import com.daenom.workout.exception.ResourceNotFoundException;
 import com.daenom.workout.mapper.ProgramMapper;
@@ -23,36 +22,30 @@ public class ProgramServiceImpl implements ProgramService {
     private final ProgramMapper programMapper;
 
     @Override
-    public ProgramResponse createProgram(CreateProgramRequest request) {
+    public Program createProgram(CreateProgramRequest request) {
         Program program = programMapper.toEntity(request);
-        program = programRepository.save(program);
-        return programMapper.toResponse(program);
+        return programRepository.save(program);
     }
 
     @Override
-    public List<ProgramResponse> getAllPrograms() {
-        List<Program> programs = programRepository.findAll();
-        return programs.stream()
-                .map(programMapper::toResponse)
-                .toList();
+    public List<Program> getAllPrograms() {
+        return programRepository.findAll();
     }
 
     @Override
-    public ProgramResponse getProgramById(Long id) {
-        Program program = programRepository.findById(id)
+    public Program getProgramById(Long id) {
+        return programRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Program not found with id: " + id));
-        return programMapper.toResponse(program);
     }
 
     @Override
-    public ProgramResponse updateProgram(Long id, CreateProgramRequest request) {
+    public Program updateProgram(Long id, CreateProgramRequest request) {
         Program existingProgram = programRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Program not found with id: " + id));
         existingProgram.setName(request.name());
         existingProgram.setDescription(request.description());
         
-        Program updatedProgram = programRepository.save(existingProgram);
-        return programMapper.toResponse(updatedProgram);
+        return programRepository.save(existingProgram);
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.daenom.workout.dto.programDay.CreateProgramDayRequest;
-import com.daenom.workout.dto.programDay.ProgramDayResponse;
 import com.daenom.workout.entity.ProgramDay;
 import com.daenom.workout.exception.ResourceNotFoundException;
 import com.daenom.workout.mapper.ProgramDayMapper;
@@ -21,38 +20,32 @@ public class ProgramDayServiceImpl implements ProgramDayService {
     private final ProgramDayMapper programDayMapper;
 
     @Override
-    public ProgramDayResponse createProgramDay(CreateProgramDayRequest request) {
+    public ProgramDay createProgramDay(CreateProgramDayRequest request) {
         ProgramDay programDay = programDayMapper.toEntity(request);
-        programDay = programDayRepository.save(programDay);
-        return programDayMapper.toResponse(programDay);
+        return programDayRepository.save(programDay);
     }
 
     @Override
     public
-    List<ProgramDayResponse> getProgramDaysByProgramId(Long programId) {
-        List<ProgramDay> programDays = programDayRepository.findAllByProgramIdOrderByOrderIndexAsc(programId);
-        return programDays.stream()
-                .map(programDayMapper::toResponse)
-                .toList();
+    List<ProgramDay> getProgramDaysByProgramId(Long programId) {
+        return programDayRepository.findAllByProgramIdOrderByOrderIndexAsc(programId);
     }
 
     @Override
-    public ProgramDayResponse getProgramDayById(Long id) {
-        ProgramDay programDay = programDayRepository.findById(id)
+    public ProgramDay getProgramDayById(Long id) {
+        return programDayRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ProgramDay not found with id: " + id));
-        return programDayMapper.toResponse(programDay);
     }
 
     @Override
-    public ProgramDayResponse updateProgramDay(Long id, CreateProgramDayRequest request) {
+    public ProgramDay updateProgramDay(Long id, CreateProgramDayRequest request) {
         ProgramDay existingProgramDay = programDayRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ProgramDay not found with id: " + id));
         existingProgramDay.setName(request.name());
         existingProgramDay.setDescription(request.description());
         existingProgramDay.setProgramDayType(request.programDayType());
         existingProgramDay.setOrderIndex(request.orderIndex()); 
-        ProgramDay updatedProgramDay = programDayRepository.save(existingProgramDay);
-        return programDayMapper.toResponse(updatedProgramDay);
+        return programDayRepository.save(existingProgramDay);
     }
 
     @Override

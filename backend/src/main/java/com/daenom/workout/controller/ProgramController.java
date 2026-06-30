@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daenom.workout.dto.program.CreateProgramRequest;
 import com.daenom.workout.dto.program.ProgramResponse;
+import com.daenom.workout.entity.Program;
+import com.daenom.workout.mapper.ProgramMapper;
 import com.daenom.workout.service.ProgramService;
 
 import java.util.List;
@@ -25,26 +27,32 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProgramController {
     private final ProgramService programService;
+    private final ProgramMapper programMapper;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public ProgramResponse createProgram(@RequestBody CreateProgramRequest request) {
-        return programService.createProgram(request);
+        Program program = programService.createProgram(request);
+        return programMapper.toResponse(program);
     }
 
     @GetMapping("/all")
     public List<ProgramResponse> getAllPrograms() {
-        return programService.getAllPrograms();
+        return programService.getAllPrograms().stream()
+                .map(programMapper::toResponse)
+                .toList();
     }
 
     @GetMapping("/{id}")
     public ProgramResponse getProgramById(@PathVariable Long id) {
-        return programService.getProgramById(id);
+        Program program = programService.getProgramById(id);
+        return programMapper.toResponse(program);
     }
 
     @PutMapping("/{id}")
     public ProgramResponse updateProgram(@PathVariable Long id, @RequestBody CreateProgramRequest request) {
-        return programService.updateProgram(id, request);
+        Program program = programService.updateProgram(id, request);
+        return programMapper.toResponse(program);
     }
 
     @DeleteMapping("/{id}")
