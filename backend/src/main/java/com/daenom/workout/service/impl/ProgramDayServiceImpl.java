@@ -1,14 +1,18 @@
 package com.daenom.workout.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.daenom.workout.dto.programDay.CreateProgramDayRequest;
+import com.daenom.workout.dto.programDay.ProgramDayDetails;
 import com.daenom.workout.entity.ProgramDay;
+import com.daenom.workout.entity.ProgramDayExercise;
 import com.daenom.workout.exception.ResourceNotFoundException;
 import com.daenom.workout.mapper.ProgramDayMapper;
 import com.daenom.workout.repository.ProgramDayRepository;
+import com.daenom.workout.service.ProgramDayExerciseService;
 import com.daenom.workout.service.ProgramDayService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 public class ProgramDayServiceImpl implements ProgramDayService {
     private final ProgramDayRepository programDayRepository;
     private final ProgramDayMapper programDayMapper;
+
+    private final ProgramDayExerciseService programDayExerciseService;
 
     @Override
     public ProgramDay createProgramDay(CreateProgramDayRequest request) {
@@ -53,5 +59,20 @@ public class ProgramDayServiceImpl implements ProgramDayService {
         ProgramDay programDay = programDayRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ProgramDay not found with id: " + id));
         programDayRepository.delete(programDay);
+    }
+
+    @Override
+    public List<ProgramDayDetails> getProgramDayDetailsByProgramId(Long ProgramId) {
+        List<ProgramDay> programDays = programDayRepository.findAllByProgramId(ProgramId);
+
+        List<ProgramDayDetails> programDayDetailsList = new ArrayList<>();
+
+        for(ProgramDay programDay : programDays) {
+            List<ProgramDayExercise> exercises = programDayExerciseService.getProgramDayExercises(programDay.getId());
+            ProgramDayDetails programDayDetails = new ProgramDayDetails(programDay, exercises);
+            programDayDetailsList.add(programDayDetails);
+        }
+        
+        return programDayDetailsList;
     }
 }

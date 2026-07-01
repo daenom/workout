@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.daenom.workout.dto.program.CreateProgramRequest;
+import com.daenom.workout.dto.program.ProgramDetails;
+import com.daenom.workout.dto.programDay.ProgramDayDetails;
 import com.daenom.workout.entity.Program;
 import com.daenom.workout.exception.ResourceNotFoundException;
 import com.daenom.workout.mapper.ProgramMapper;
 import com.daenom.workout.repository.ProgramRepository;
+import com.daenom.workout.service.ProgramDayService;
 import com.daenom.workout.service.ProgramService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 public class ProgramServiceImpl implements ProgramService {
     private final ProgramRepository programRepository;
     private final ProgramMapper programMapper;
+
+    private final ProgramDayService programDayService;
 
     @Override
     public Program createProgram(CreateProgramRequest request) {
@@ -53,5 +58,14 @@ public class ProgramServiceImpl implements ProgramService {
         Program program = programRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Program not found with id: " + id));
         programRepository.delete(program);
+    }
+
+    @Override
+    public ProgramDetails getProgramDetailsById(Long id) {
+        Program program = programRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Program not found with id: " + id));
+        
+        List<ProgramDayDetails> programDays = programDayService.getProgramDayDetailsByProgramId(id);
+        return new ProgramDetails(program, programDays);
     }
 }

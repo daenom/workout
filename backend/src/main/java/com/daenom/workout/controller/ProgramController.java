@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daenom.workout.dto.program.CreateProgramRequest;
+import com.daenom.workout.dto.program.ProgramDetails;
 import com.daenom.workout.dto.program.ProgramResponse;
 import com.daenom.workout.entity.Program;
 import com.daenom.workout.mapper.ProgramMapper;
@@ -44,9 +45,8 @@ public class ProgramController {
     }
 
     @GetMapping("/{id}")
-    public ProgramResponse getProgramById(@PathVariable Long id) {
-        Program program = programService.getProgramById(id);
-        return programMapper.toResponse(program);
+    public ProgramDetails getProgramDetails(@PathVariable Long id) {
+        return programService.getProgramDetailsById(id);
     }
 
     @PutMapping("/{id}")
