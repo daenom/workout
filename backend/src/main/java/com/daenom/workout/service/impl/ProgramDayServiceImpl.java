@@ -75,4 +75,13 @@ public class ProgramDayServiceImpl implements ProgramDayService {
         
         return programDayDetailsList;
     }
+
+    @Override
+    public void deleteProgramDaysByProgramId(Long programId) {
+        List<ProgramDay> programDays = programDayRepository.findAllByProgramId(programId);
+        for (ProgramDay programDay : programDays) {
+            programDayExerciseService.deleteProgramDayExercisesByProgramDayId(programDay.getId());
+            programDayRepository.delete(programDay);
+        }
+    }
 }

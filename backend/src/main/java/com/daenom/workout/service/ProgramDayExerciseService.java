@@ -15,4 +15,6 @@ public interface ProgramDayExerciseService {
     ProgramDayExercise updateProgramDayExercise(Long id, CreateProgramDayExerciseRequest request);
 
     void deleteProgramDayExercise(Long id);
+
+    void deleteProgramDayExercisesByProgramDayId(Long programDayId);
 }

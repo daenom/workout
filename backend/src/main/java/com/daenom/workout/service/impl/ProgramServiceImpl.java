@@ -57,6 +57,8 @@ public class ProgramServiceImpl implements ProgramService {
     public void deleteProgram(Long id) {
         Program program = programRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Program not found with id: " + id));
+        
+        programDayService.deleteProgramDaysByProgramId(id);
         programRepository.delete(program);
     }
 

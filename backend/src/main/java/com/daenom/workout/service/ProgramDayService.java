@@ -18,4 +18,6 @@ public interface ProgramDayService {
     void deleteProgramDay(Long id);
 
     List<ProgramDayDetails> getProgramDayDetailsByProgramId(Long ProgramId);
+
+    void deleteProgramDaysByProgramId(Long programId);
 }

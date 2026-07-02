@@ -48,4 +48,12 @@ public class ProgramDayExerciseServiceImpl implements ProgramDayExerciseService 
     public void deleteProgramDayExercise(Long id) {
         programDayExerciseRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteProgramDayExercisesByProgramDayId(Long programDayId) {
+        List<ProgramDayExercise> programDayExercises = programDayExerciseRepository.findAllByProgramDayId(programDayId);
+        for (ProgramDayExercise programDayExercise : programDayExercises) {
+            programDayExerciseRepository.delete(programDayExercise);
+        }
+    }
 }

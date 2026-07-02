@@ -10,4 +10,5 @@ public interface ProgramDayExerciseRepository extends JpaRepository<ProgramDayEx
 
     List<ProgramDayExercise> findAllByProgramDayIdOrderByOrderIndexAsc(Long programDayId);
     
+    List<ProgramDayExercise> findAllByProgramDayId(Long programDayId);
 }
