@@ -61,7 +61,7 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
 
             WorkoutExerciseLog workoutExerciseLog = WorkoutExerciseLog.builder()
                 .workoutSessionId(workoutSession.getId())
-                .exerciseId(programDayExercise.getExerciseId())
+                .exerciseId(programDayExercise.getExercise().getId())
                 .orderIndex(programDayExercise.getOrderIndex())
                 .loggedSets(initialSets)
                 .build();

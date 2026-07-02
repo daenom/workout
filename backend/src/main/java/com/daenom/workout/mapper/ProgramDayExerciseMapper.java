@@ -11,7 +11,7 @@ public class ProgramDayExerciseMapper {
     public ProgramDayExercise toEntity(CreateProgramDayExerciseRequest request) {
         return ProgramDayExercise.builder()
                 .programDayId(request.programDayId())
-                .exerciseId(request.exerciseId())
+                // .exerciseId(request.exerciseId())
                 .orderIndex(request.orderIndex())
                 .sets(request.sets())
                 .build();
@@ -21,7 +21,7 @@ public class ProgramDayExerciseMapper {
         return new ProgramDayExerciseResponse(
                 programDayExercise.getId(),
                 programDayExercise.getProgramDayId(),
-                programDayExercise.getExerciseId(),
+                programDayExercise.getExercise().getId(),
                 programDayExercise.getOrderIndex(),
                 programDayExercise.getSets()
         );
