@@ -5,7 +5,7 @@ Workout tracking and planning application
 ## Project Structure
 
 - `backend/` - Spring Boot backend application
-- `frontend/` - planned frontend application
+- `frontend/` - React frontend application
 
 ## Getting Started
 
