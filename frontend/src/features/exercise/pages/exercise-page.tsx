@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { PageWrapper } from "@/components/page-wrapper";
 import { ExerciseCard } from "@/features/exercise/components/ExerciseCard";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
-import { Activity, Dumbbell, FunnelXIcon, ListFilterIcon, Search, Target } from "lucide-react";
+import { Activity, Dumbbell, FunnelXIcon, ListFilterIcon, Search, Target, X } from "lucide-react";
 import type { Exercise } from "@/features/exercise/types";
 import { exercises } from "@/features/exercise/data/exercises";
 import { Button } from "@/components/ui/button";
@@ -85,15 +85,36 @@ export default function ExercisesPage() {
     const TopSection = (
         <div className="flex w-full flex-col gap-4 py-2">
             <InputGroup>
-                <InputGroupAddon>
-                    <Search className="h-4 w-4" />
-                </InputGroupAddon>
-                <InputGroupInput
-                    placeholder="Search exercises"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-            </InputGroup>
+    <InputGroupAddon>
+        <Search className="h-4 w-4 text-muted-foreground" />
+    </InputGroupAddon>
+    
+    <InputGroupInput
+        placeholder="Search exercises"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        /* FIX 2: Drop mobile keyboard on Enter */
+        onKeyDown={(e) => {
+            if (e.key === "Enter") {
+                e.currentTarget.blur();
+            }
+        }}
+    />
+    
+    {/* FIX 1: Clear button (only renders if searchQuery has text) */}
+    {searchQuery && (
+        <InputGroupAddon align="inline-end" className="pr-3">
+            <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="flex items-center justify-center text-muted-foreground hover:text-foreground focus:outline-none "
+                aria-label="Clear search"
+            >
+                <X className="h-4 w-4" />
+            </button>
+        </InputGroupAddon>
+    )}
+</InputGroup>
 
             <div className="flex flex-wrap items-center gap-2">
                 <Filters
@@ -134,15 +155,17 @@ export default function ExercisesPage() {
     const MainSection = (
         // REMOVED: h-full and w-full. Just let it act as a normal flex column block.
         <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between px-4">
-                <h2 className="text-lg font-semibold tracking-tight">Available Exercises</h2>
+            <div className="flex items-center justify-between px-4 pt-1">
+                <span className="text-md font-semibold text-muted-foreground">
+                    Available Exercises
+                </span>
                 <span className="text-xs text-muted-foreground">
                     Showing {filteredExercises.length} results
                 </span>
             </div>
 
             {filteredExercises.length === 0 ? (
-                <div className="flex flex-col items-center justify-center border border-dashed rounded-lg p-8 text-center min-h-[300px]">
+                <div className="flex flex-col items-center justify-center rounded-lg p-8 text-center min-h-[300px]">
                     <p className="text-sm font-medium text-muted-foreground">No matching exercises found.</p>
                     <p className="text-xs text-muted-foreground/70 mt-1">Try adjusting your filters or expanding your search query.</p>
                 </div>
