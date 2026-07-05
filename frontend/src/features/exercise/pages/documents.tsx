@@ -1,5 +1,14 @@
+import { Button } from "@/components/ui/button";
+import { getExercises } from "../api/exerciseApi";
+
 // src/app/pages/DocumentsPage.tsx
 export default function DocumentsPage() {
+  const handleClick = async () => {
+    const data = await getExercises();
+
+    console.log(data);       // See response in browser console
+    alert(JSON.stringify(data)); // Just to verify it works
+  };
   return (
     <>
       {/* 
@@ -8,6 +17,9 @@ export default function DocumentsPage() {
       */}
       <div className="mx-auto h-24 w-full max-w-3xl rounded-xl bg-muted/50 flex items-center justify-center border">
         Documents Toolbar Placeholder
+        <Button variant="outline" className="ml-4" onClick={handleClick}>
+          click me
+        </Button>
       </div>
       <div className="mx-auto h-full w-full max-w-3xl rounded-xl bg-muted/50 flex items-center justify-center border">
         Documents List Placeholder
