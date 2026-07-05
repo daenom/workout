@@ -28,3 +28,11 @@ cd workout
 cd backend
 ./mvnw spring-boot:run
 ```
+
+3. Run frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
