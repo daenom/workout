@@ -10,9 +10,6 @@ export const exercises: Exercise[] = [
     equipment: "Barbell",
     muscleGroup: "Chest",
     difficulty: "Intermediate",
-    setsReps: "4 × 8",
-    rest: "90 sec",
-    duration: "15 min",
     description: "A compound exercise for building chest strength and size.",
     steps: [
       "Lie flat on the bench.",
@@ -24,11 +21,6 @@ export const exercises: Exercise[] = [
       "Keep your feet planted.",
       "Retract your shoulder blades.",
       "Control the descent."
-    ],
-    benefits: [
-      "Builds chest strength",
-      "Develops triceps",
-      "Improves pressing power"
     ]
   },
   {
@@ -40,13 +32,9 @@ export const exercises: Exercise[] = [
     equipment: "Barbell",
     muscleGroup: "Legs",
     difficulty: "Intermediate",
-    setsReps: "5 × 5",
-    rest: "2 min",
-    duration: "20 min",
     description: "The king of lower body exercises.",
     steps: [],
-    cues: [],
-    benefits: []
+    cues: []
   },
   {
     id: "3",
@@ -57,13 +45,9 @@ export const exercises: Exercise[] = [
     equipment: "Barbell",
     muscleGroup: "Back",
     difficulty: "Advanced",
-    setsReps: "5 × 5",
-    rest: "2-3 min",
-    duration: "20 min",
     description: "A full-body compound pulling movement.",
     steps: [],
-    cues: [],
-    benefits: []
+    cues: []
   },
   {
     id: "4",
@@ -74,13 +58,9 @@ export const exercises: Exercise[] = [
     equipment: "Dumbbell",
     muscleGroup: "Legs",
     difficulty: "Beginner",
-    setsReps: "3 × 12",
-    rest: "60 sec",
-    duration: "12 min",
     description: "Excellent beginner squat variation.",
     steps: [],
-    cues: [],
-    benefits: []
+    cues: []
   },
   {
     id: "5",
@@ -91,13 +71,9 @@ export const exercises: Exercise[] = [
     equipment: "Bodyweight",
     muscleGroup: "Core",
     difficulty: "Beginner",
-    setsReps: "3 sets",
-    rest: "45 sec",
-    duration: "30 sec hold",
     description: "Static core stabilization exercise.",
     steps: [],
-    cues: [],
-    benefits: []
+    cues: []
   },
   {
     id: "6",
@@ -108,12 +84,8 @@ export const exercises: Exercise[] = [
     equipment: "Cable",
     muscleGroup: "Shoulders",
     difficulty: "Beginner",
-    setsReps: "3 × 15",
-    rest: "60 sec",
-    duration: "10 min",
     description: "Improves posture and shoulder health.",
     steps: [],
-    cues: [],
-    benefits: []
+    cues: []
   }
 ];

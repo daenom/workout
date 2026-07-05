@@ -41,12 +41,7 @@ export type Exercise = {
   muscleGroup: MuscleGroup;
   difficulty: ExerciseDifficulty;
 
-  setsReps: string;
-  rest: string;
-  duration?: string;
-
   description: string;
   steps: string[];
   cues: string[];
-  benefits: string[];
 };

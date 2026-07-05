@@ -1,42 +1,30 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { SiteHeader } from "@/components/site-header"
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
-import { getExercises } from "../api/exerciseApi";
-import { Button } from "@base-ui/react";
+import { useState } from "react"
+import { MultiSelect } from "@/features/exercise/components/multi"
+import { Activity } from "lucide-react"
 
-export default async function Page() {
-  const data = await getExercises();
+export default function MyCustomPage() {
+  // 1. Create a state to hold the selected values
+  const [selectedMuscles, setSelectedMuscles] = useState<string[]>([])
 
-  console.log(data);
+  // 2. Define your options
+  const MUSCLE_OPTIONS = [
+    { label: "Chest", value: "chest" },
+    { label: "Legs", value: "legs" },
+    { label: "Core", value: "core" },
+    { label: "Shoulders", value: "shoulders" },
+    { label: "Back", value: "back" },
+  ]
 
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
-    >
-      <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SiteHeader />
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="flex flex-1 flex-col gap-4 px-4 py-10">
-              <div className="mx-auto h-24 w-full max-w-3xl rounded-xl bg-muted/50" >
-              <Button className="w-full max-w-3xl">
-                Click Me
-              </Button>
-              </div>
-              <div className="mx-auto h-full w-full max-w-3xl rounded-xl bg-muted/50" />
-            </div>
-          </div>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
-  );
+    <div className="p-8">
+      {/* 3. Drop it in! */}
+      <MultiSelect 
+        title="Muscles"
+        icon={<Activity className="h-4 w-4" />}
+        options={MUSCLE_OPTIONS}
+        value={selectedMuscles}
+        onValueChange={setSelectedMuscles}
+      />
+    </div>
+  )
 }

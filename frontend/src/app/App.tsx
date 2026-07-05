@@ -7,6 +7,8 @@ import ExerciseList from "@/features/exercise/components/ExerciseList"
 import Page from "@/features/exercise/pages/temp"
 import DocumentsPage from "@/features/exercise/pages/documents"
 import ExercisesPage from "@/features/exercise/pages/exercise-page"
+import { AddExerciseForm } from "@/features/exercise/components/AddExercise"
+import MyCustomPage from "@/features/exercise/pages/temp"
 
 function App() {
   return (
@@ -19,8 +21,8 @@ function App() {
             <Route path="documents" element={<DocumentsPage />} />
             
           </Route>
-          <Route path="/test" element={<ExerciseList />} />
-          <Route path="/temp" element={<Page />} />
+          <Route path="/test" element={<AddExerciseForm />} />
+          <Route path="/temp" element={<MyCustomPage />} />
           <Route path="*" element={<Navigate to="/documents" replace />} />
         </Routes>
       </TooltipProvider>
