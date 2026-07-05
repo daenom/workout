@@ -28,7 +28,7 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
         <img
           src={exercise.image}
           alt={exercise.name}
-          className="aspect-[16/8] w-full object-cover grayscale brightness-75 hover:grayscale-0 hover:brightness-100 hover:translate-y-[-2px] hover:scale-[1.02] transition-all duration-300"
+          className="aspect-[16/8] w-full object-cover grayscale-0 sm:grayscale brightness-75 hover:grayscale-0 hover:brightness-100 hover:translate-y-[-2px] hover:scale-[1.02] transition-all duration-300"
         />
       </div>
 
@@ -39,12 +39,12 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
 
         <CardTitle>{exercise.name}</CardTitle>
 
-        {/* <CardDescription className="line-clamp-1">
+        <CardDescription className="hidden sm:block sm:line-clamp-1">
           {exercise.description}
-        </CardDescription> */}
+        </CardDescription>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="pb-2 sm:pb-0">
         <div className="flex flex-wrap gap-2">
           <Badge variant="secondary">
             <Target className="mr-1 h-3 w-3" />
@@ -63,7 +63,7 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
         </div>
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="hidden sm:flex">
         <div className="flex w-full items-center gap-2">
           <Button className="flex-1">
             View Details

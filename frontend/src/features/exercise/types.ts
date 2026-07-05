@@ -31,6 +31,7 @@ export type Equipment =
   | "Resistance Band";
 
 export type Exercise = {
+  id: string;
   slug: string;
   name: string;
   image?: string;

@@ -7,16 +7,18 @@ interface PageWrapperProps {
 
 export function PageWrapper({ topContent, mainContent }: PageWrapperProps) {
   return (
-    <>
-      {/* Top Block: For titles, tabs, or quick actions */}
-      <div className="mx-auto flex h-24 w-full max-w-6xl items-center rounded-xl px-4">
+    <div className="flex h-full w-full flex-col overflow-hidden">
+      
+      {/* Top Block */}
+      <div className="mx-auto w-full max-w-3xl shrink-0 px-4 pb-4">
         {topContent}
       </div>
       
-      {/* Bottom Block: For the primary data/content */}
-      <div className="mx-auto flex h-full w-full max-w-6xl flex-col rounded-xl border p-4">
+      {/* Bottom Block: Now with desktop scrollbar hiding classes */}
+      <div className="mx-auto w-full max-w-3xl flex-1 overflow-y-auto rounded-xl border p-2 sm:[scrollbar-width:none] sm:[-ms-overflow-style:none] sm:[&::-webkit-scrollbar]:hidden">
         {mainContent}
       </div>
-    </>
+      
+    </div>
   )
 }

@@ -6,6 +6,7 @@ import { TooltipProvider } from "../components/ui/tooltip"
 import ExerciseList from "@/features/exercise/components/ExerciseList"
 import Page from "@/features/exercise/pages/temp"
 import DocumentsPage from "@/features/exercise/pages/documents"
+import ExercisesPage from "@/features/exercise/pages/exercise-page"
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <TooltipProvider>
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            <Route path="exercises" element={<ExerciseList />} />
+            <Route path="exercises" element={<ExercisesPage />} />
             <Route path="documents" element={<DocumentsPage />} />
+            
           </Route>
           <Route path="/test" element={<ExerciseList />} />
           <Route path="/temp" element={<Page />} />

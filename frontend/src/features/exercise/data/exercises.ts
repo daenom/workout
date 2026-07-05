@@ -2,6 +2,7 @@ import type { Exercise } from "@/features/exercise/types";
 
 export const exercises: Exercise[] = [
   {
+    id: "1",
     slug: "bench-press",
     name: "Bench Press",
     image: "https://images.ctfassets.net/8urtyqugdt2l/2bMyO0jZaRJjfRptw60iwG/17c391156dd01ae6920c672cc2744fb1/desktop-bench-press.jpg",
@@ -31,6 +32,7 @@ export const exercises: Exercise[] = [
     ]
   },
   {
+    id: "2",
     slug: "barbell-squat",
     name: "Barbell Squat",
     image: "https://hips.hearstapps.com/hmg-prod/images/man-training-with-weights-royalty-free-image-1718637105.jpg?crop=0.88931xw:1xh;center,top&resize=1200:*",
@@ -47,6 +49,7 @@ export const exercises: Exercise[] = [
     benefits: []
   },
   {
+    id: "3",
     slug: "deadlift",
     name: "Deadlift",
     image: "https://blogscdn.thehut.net/wp-content/uploads/sites/495/2018/10/25171220/Blog-Deadlifting-Male_1800x672_1200x672_acf_cropped.jpg",
@@ -63,6 +66,7 @@ export const exercises: Exercise[] = [
     benefits: []
   },
   {
+    id: "4",
     slug: "goblet-squat",
     name: "Goblet Squat",
     image: "https://row.gymshark.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2F8urtyqugdt2l%2F56AQL6OUTCfTjfSzcmkl3r%2Fe86840c8ea82de5a79f0439fd15cff7c%2Fgoblet-squat.jpg&w=3840&q=85",
@@ -79,6 +83,7 @@ export const exercises: Exercise[] = [
     benefits: []
   },
   {
+    id: "5",
     slug: "plank",
     name: "Plank",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUYjMR2dsVSQyEZiv3d_z3zV43gri-H2r45dMnuABVdpXFyKUXdn_HS1V1&s=10",
@@ -95,6 +100,7 @@ export const exercises: Exercise[] = [
     benefits: []
   },
   {
+    id: "6",
     slug: "cable-face-pull",
     name: "Cable Face Pull",
     image: "https://www.newbodyplan.co.uk/wp-content/uploads/2022/12/cable_face_pull_muscular_man_gym_shoulder_training_machine_strong.jpg",
