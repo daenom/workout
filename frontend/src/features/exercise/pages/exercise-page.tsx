@@ -4,23 +4,24 @@ import { ExerciseCard } from "@/features/exercise/components/ExerciseCard";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Activity, Dumbbell, FunnelXIcon, ListFilterIcon, Search, Target, X } from "lucide-react";
 import type { Exercise } from "@/features/exercise/types";
-import { exercises } from "@/features/exercise/data/exercises";
 import { Button } from "@/components/ui/button";
 import { AddExerciseForm } from "@/features/exercise/components/AddExercise";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 // Import your custom filter components
 import { Filters, type Filter, type FilterFieldConfig } from "@/components/reui/filters";
-
-const MOCK_EXERCISES: Exercise[] = exercises;
+import { useExercises } from "../api/exerciseQueries";
+import { ExerciseSkeletonCard } from "../components/ExerciseSkeletonCard";
 
 export default function ExercisesPage() {
+    const {data: exercises, isLoading, isError, error} = useExercises();
+    const exercisesData: Exercise[] = exercises || [];
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilters, setActiveFilters] = useState<Filter[]>([]);
 
-    const uniqueFocuses = useMemo(() => Array.from(new Set(MOCK_EXERCISES.map(e => e.focus))), []);
-    const uniqueMuscles = useMemo(() => Array.from(new Set(MOCK_EXERCISES.map(e => e.muscleGroup))), []);
-    const uniqueEquipment = useMemo(() => Array.from(new Set(MOCK_EXERCISES.map(e => e.equipment))), []);
+    const uniqueFocuses = useMemo(() => Array.from(new Set(exercisesData.map(e => e.focus))), []);
+    const uniqueMuscles = useMemo(() => Array.from(new Set(exercisesData.map(e => e.primaryMuscleGroup))), []);
+    const uniqueEquipment = useMemo(() => Array.from(new Set(exercisesData.map(e => e.equipment))), []);
 
     // Base configuration for your fields
     const filterFields: FilterFieldConfig[] = useMemo(() => [
@@ -65,7 +66,7 @@ export default function ExercisesPage() {
 
     // 4. Apply the dynamic filters to the exercise list
     const filteredExercises = useMemo(() => {
-        return MOCK_EXERCISES.filter((exercise) => {
+        return exercisesData.filter((exercise) => {
             // Check Text Search
             const matchesSearch = exercise.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 exercise.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -77,7 +78,7 @@ export default function ExercisesPage() {
 
             // Check against selected dynamic filters
             const matchesFocus = selectedFocuses.length === 0 || selectedFocuses.includes(exercise.focus);
-            const matchesMuscle = selectedMuscles.length === 0 || selectedMuscles.includes(exercise.muscleGroup);
+            const matchesMuscle = selectedMuscles.length === 0 || selectedMuscles.includes(exercise.primaryMuscleGroup);
             const matchesEquipment = selectedEquipment.length === 0 || selectedEquipment.includes(exercise.equipment);
 
             return matchesSearch && matchesFocus && matchesMuscle && matchesEquipment;

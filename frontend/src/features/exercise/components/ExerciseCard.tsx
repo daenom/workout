@@ -26,7 +26,7 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
         <div className="absolute inset-0 bg-black/35" />
 
         <img
-          src={exercise.image}
+          src={exercise.imageUrl}
           alt={exercise.name}
           className="aspect-[16/8] w-full object-cover grayscale-0 sm:grayscale brightness-75 hover:grayscale-0 hover:brightness-100 hover:translate-y-[-2px] hover:scale-[1.02] transition-all duration-300"
         />
@@ -48,7 +48,7 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
         <div className="flex flex-wrap gap-2">
           <Badge variant="secondary">
             <Target className="mr-1 h-3 w-3" />
-            {exercise.muscleGroup}
+            {exercise.primaryMuscleGroup}
           </Badge>
 
           <Badge variant="secondary">

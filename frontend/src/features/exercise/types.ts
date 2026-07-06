@@ -34,11 +34,11 @@ export type Exercise = {
   id: string;
   slug: string;
   name: string;
-  image?: string;
+  imageUrl?: string;
 
   focus: ExerciseFocus;
   equipment: Equipment;
-  muscleGroup: MuscleGroup;
+  primaryMuscleGroup: MuscleGroup;
   difficulty: ExerciseDifficulty;
 
   description: string;

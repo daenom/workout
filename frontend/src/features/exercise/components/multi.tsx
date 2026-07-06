@@ -12,7 +12,7 @@ import { X } from "lucide-react"
 
 interface MultiSelectProps {
   title: string
-  options: { label: string; value: string }[]
+  options: string[]
   value: string[]
   onValueChange: (value: string[]) => void
   icon?: React.ReactNode
@@ -41,8 +41,8 @@ export function MultiSelect({
     onValueChange([])   
   }
 
-  const selectedOptions = options.filter(opt => value.includes(opt.value))
-  const unselectedOptions = options.filter(opt => !value.includes(opt.value))
+  const selectedOptions = options.filter(opt => value.includes(opt))
+  const unselectedOptions = options.filter(opt => !value.includes(opt))
 
   return (
     <DropdownMenu modal={false}>
@@ -79,12 +79,12 @@ export function MultiSelect({
       <DropdownMenuContent align="start" className="w-[200px]">
         {selectedOptions.map((option) => (
           <DropdownMenuCheckboxItem
-            key={option.value}
-            checked={value.includes(option.value)}
-            onCheckedChange={() => handleSelect(option.value)}
+            key={option}
+            checked={value.includes(option)}
+            onCheckedChange={() => handleSelect(option)}
             onSelect={(e) => e.preventDefault()}
           >
-            {option.label}
+            {option}
           </DropdownMenuCheckboxItem>
         ))}
 
@@ -94,12 +94,12 @@ export function MultiSelect({
 
         {unselectedOptions.map((option) => (
           <DropdownMenuCheckboxItem
-            key={option.value}
-            checked={value.includes(option.value)}
-            onCheckedChange={() => handleSelect(option.value)}
+            key={option}
+            checked={value.includes(option)}
+            onCheckedChange={() => handleSelect(option)}
             onSelect={(e) => e.preventDefault()}
           >
-            {option.label}
+            {option}
           </DropdownMenuCheckboxItem>
         ))}
       </DropdownMenuContent>

@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { getExercises } from "../api/exerciseApi";
+import { getAllExercises } from "../api/exerciseApi";
 
 // src/app/pages/DocumentsPage.tsx
 export default function DocumentsPage() {
   const handleClick = async () => {
-    const data = await getExercises();
+    const data = await getAllExercises();
 
     console.log(data);       // See response in browser console
     alert(JSON.stringify(data)); // Just to verify it works
