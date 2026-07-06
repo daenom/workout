@@ -11,8 +11,14 @@ public class ExerciseMapper {
     public Exercise toEntity(CreateExerciseRequest request) {
         return Exercise.builder()
                 .name(request.name())
+                .imageUrl(request.imageUrl())
                 .description(request.description())
-                .instructions(request.instructions())
+                .primaryMuscleGroup(request.primaryMuscleGroup())
+                .equipment(request.equipment())
+                .focus(request.focus())
+                .difficulty(request.difficulty())
+                .steps(request.steps())
+                .cues(request.cues())
                 .build();
     }
 
@@ -20,8 +26,7 @@ public class ExerciseMapper {
         return new ExerciseResponse(
                 exercise.getId(),
                 exercise.getName(),
-                exercise.getDescription(),
-                exercise.getInstructions()
+                exercise.getSlug()
         );
     }
 }

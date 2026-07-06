@@ -38,10 +38,11 @@ public class ExerciseController {
     }
 
     @GetMapping("/all")
-    public List<ExerciseResponse> getAllExercises() {
-        return exerciseService.getAllExercises().stream()
-                .map(exerciseMapper::toResponse)
-                .collect(Collectors.toList());
+    public List<Exercise> getAllExercises() {
+        // return exerciseService.getAllExercises().stream()
+        //         .map(exerciseMapper::toResponse)
+        //         .collect(Collectors.toList());
+        return exerciseService.getAllExercises();
     }
 
     @GetMapping("/{id}")

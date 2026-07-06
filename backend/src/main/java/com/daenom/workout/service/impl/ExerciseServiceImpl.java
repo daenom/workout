@@ -12,6 +12,7 @@ import com.daenom.workout.exception.ResourceNotFoundException;
 import com.daenom.workout.mapper.ExerciseMapper;
 import com.daenom.workout.repository.ExerciseRepository;
 import com.daenom.workout.service.ExerciseService;
+import com.daenom.workout.utils.GenerateSlug;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +31,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             });
 
         Exercise exercise = exerciseMapper.toEntity(request);
+        exercise.setSlug(GenerateSlug.generateSlug(request.name()));
         return exerciseRepository.save(exercise);
     }
 
@@ -51,7 +53,13 @@ public class ExerciseServiceImpl implements ExerciseService {
 
         existingExercise.setName(request.name());
         existingExercise.setDescription(request.description());
-        existingExercise.setInstructions(request.instructions());
+        existingExercise.setImageUrl(request.imageUrl());
+        existingExercise.setPrimaryMuscleGroup(request.primaryMuscleGroup());
+        existingExercise.setEquipment(request.equipment());
+        existingExercise.setFocus(request.focus());
+        existingExercise.setDifficulty(request.difficulty());
+        existingExercise.setSteps(request.steps());
+        existingExercise.setCues(request.cues());
 
         return exerciseRepository.save(existingExercise);
     }
