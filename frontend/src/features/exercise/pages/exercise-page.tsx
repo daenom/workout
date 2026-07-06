@@ -19,9 +19,9 @@ export default function ExercisesPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilters, setActiveFilters] = useState<Filter[]>([]);
 
-    const uniqueFocuses = useMemo(() => Array.from(new Set(exercisesData.map(e => e.focus))), []);
-    const uniqueMuscles = useMemo(() => Array.from(new Set(exercisesData.map(e => e.primaryMuscleGroup))), []);
-    const uniqueEquipment = useMemo(() => Array.from(new Set(exercisesData.map(e => e.equipment))), []);
+    const uniqueFocuses = useMemo(() => Array.from(new Set(exercisesData.map(e => e.focus))), [exercisesData]);
+    const uniqueMuscles = useMemo(() => Array.from(new Set(exercisesData.map(e => e.primaryMuscleGroup))), [exercisesData]);
+    const uniqueEquipment = useMemo(() => Array.from(new Set(exercisesData.map(e => e.equipment))), [exercisesData]);
 
     // Base configuration for your fields
     const filterFields: FilterFieldConfig[] = useMemo(() => [
@@ -83,7 +83,7 @@ export default function ExercisesPage() {
 
             return matchesSearch && matchesFocus && matchesMuscle && matchesEquipment;
         });
-    }, [searchQuery, activeFilters]);
+    }, [exercisesData, searchQuery, activeFilters]);
 
     const TopSection = (
         <div className="flex w-full flex-col gap-4 py-2">
