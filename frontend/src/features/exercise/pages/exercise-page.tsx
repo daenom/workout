@@ -6,12 +6,14 @@ import { Activity, Dumbbell, FunnelXIcon, ListFilterIcon, Search, Target, X } fr
 import type { Exercise } from "@/features/exercise/types";
 import { Button } from "@/components/ui/button";
 import { AddExerciseForm } from "@/features/exercise/components/AddExercise";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 // Import your custom filter components
 import { Filters, type Filter, type FilterFieldConfig } from "@/components/reui/filters";
 import { useExercises } from "../api/exerciseQueries";
 import { ExerciseSkeletonCard } from "../components/ExerciseSkeletonCard";
+import { Skeleton } from "@/components/ui/skeleton";
+import DocumentsPage from "./documents";
 
 export default function ExercisesPage() {
     const {data: exercises, isLoading, isError, error} = useExercises();
@@ -22,6 +24,12 @@ export default function ExercisesPage() {
     const uniqueFocuses = useMemo(() => Array.from(new Set(exercisesData.map(e => e.focus))), [exercisesData]);
     const uniqueMuscles = useMemo(() => Array.from(new Set(exercisesData.map(e => e.primaryMuscleGroup))), [exercisesData]);
     const uniqueEquipment = useMemo(() => Array.from(new Set(exercisesData.map(e => e.equipment))), [exercisesData]);
+
+    if(isLoading){
+        return (
+            <DocumentsPage />
+        )
+    }
 
     // Base configuration for your fields
     const filterFields: FilterFieldConfig[] = useMemo(() => [
@@ -144,7 +152,7 @@ export default function ExercisesPage() {
                             Add Exercise
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-lg bg-background/80 backdrop-blur-lg py-6 shadow-xl">
+                    <DialogContent className="sm:max-w-lg bg-background/80 backdrop-blur-lg py-6 shadow-xl max-h-[95vh] overflow-y-auto sm:[scrollbar-width:none] sm:[-ms-overflow-style:none] sm:[&::-webkit-scrollbar]:hidden">
                         <AddExerciseForm />
                     </DialogContent>
                 </Dialog>
