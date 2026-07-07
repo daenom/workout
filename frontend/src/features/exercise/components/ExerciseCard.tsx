@@ -41,11 +41,12 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
 
         <CardDescription className="hidden sm:block sm:line-clamp-1">
           {exercise.description}
+          {!exercise.description && <span className="invisible">.</span>}
         </CardDescription>
       </CardHeader>
 
       <CardContent className="pb-2 sm:pb-0">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-nowrap gap-2 overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Badge variant="secondary">
             <Target className="mr-1 h-3 w-3" />
             {exercise.primaryMuscleGroup}
