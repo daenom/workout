@@ -1,44 +1,27 @@
 import * as React from "react"
-import { useLocation, Link } from "react-router-dom" // Added useLocation and Link
+import { Link, useLocation } from "react-router-dom";
 
-import { NavSecondary } from "@/components/nav-secondary"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { CommandIcon, MessageCircleQuestion, Trash2, AudioWaveform, Home, Inbox, Calendar, Settings2, Blocks } from "lucide-react"
-
-import { NavMain } from "./nav-main"
+import { Activity, Blocks, Calendar, CommandIcon, LayoutDashboard, MessageCircleQuestion, NotebookPen, Settings2, Trash2 } from "lucide-react"
+import { NavSecondary } from "./nav-secondary";
+import { NavPrimary } from "./nav-primary";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // Get the current location from react-router
-  const location = useLocation()
+  const location = useLocation();
 
-  // Move data inside the component to compute isActive dynamically
-  const navMain = [
-    {
-      title: "Dashboard",
-      url: "/documents", // Assuming /documents is your default dashboard view based on your router fallback
-      icon: Home,
-      isActive: location.pathname === "/documents" || location.pathname === "/",
-    },
-    {
-      title: "Exercises",
-      url: "/exercises", // Maps to the path in your router
-      icon: Inbox,
-      badge: "10",
-      isActive: location.pathname.startsWith("/exercises"),
-    },
-    {
-      title: "Workout Plans",
-      url: "/workout-plans", 
-      icon: AudioWaveform,
-      isActive: location.pathname.startsWith("/workout-plans"),
-    }
+  const navPrimary = [
+    {title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, isActive: location.pathname === "/dashboard"},
+    {title: "Exercises", url: "/exercises", icon: Activity, isActive: location.pathname.startsWith("/exercises")},
+    {title: "Workout Plans", url: "/workout-plans", icon: NotebookPen, isActive: location.pathname.startsWith("/workout-plans")},
   ]
 
   const navSecondary = [
@@ -48,30 +31,45 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     { title: "Trash", url: "/trash", icon: Trash2 },
     { title: "Help", url: "/help", icon: MessageCircleQuestion },
   ]
-
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
+    <Sidebar {...props}>
+
+      <SidebarHeader >
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton 
-              asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5! "
-            >
-              {/* Switched standard <a> tag to react-router <Link> */}
-              <Link to="/">
-                <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </Link>
-            </SidebarMenuButton>
+            <SidebarMenuButton
+              render={
+                <Link to="/">
+                  <CommandIcon className="size-5!"/>
+                  <span className="text-base font-semibold">Workout Inc.</span>
+                </Link>
+              }
+            />
           </SidebarMenuItem>
         </SidebarMenu>
-        {/* Pass the dynamically calculated items */}
-        <NavMain items={navMain} />
       </SidebarHeader>
+
       <SidebarContent>
-        <NavSecondary items={navSecondary} className="mt-auto" />
+        <SidebarGroup>
+              <NavPrimary items={navPrimary} />
+        </SidebarGroup>
+
+        {/* <SidebarGroup>
+                    <SidebarGroupLabel>
+                      My Plans
+                    </SidebarGroupLabel>
+        </SidebarGroup >
+
+        <SidebarGroup>
+                    <SidebarGroupLabel>
+                      Shared Plans
+                    </SidebarGroupLabel>
+        </SidebarGroup> */}
       </SidebarContent>
+
+      <SidebarFooter>
+        <NavSecondary items={navSecondary} className="mt-auto" />
+      </SidebarFooter>
     </Sidebar>
   )
 }

@@ -1,4 +1,4 @@
-import { api } from "@/lib/apiClient";
+import { api } from "@/lib/api-client";
 import type { Exercise } from "../types";
 
 // const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
