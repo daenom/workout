@@ -1,0 +1,8 @@
+package com.daenom.workout.service;
+
+import com.daenom.workout.dto.auth.SignupRequest;
+import com.daenom.workout.dto.auth.SignupResponse;
+
+public interface AuthService {
+    SignupResponse signup(SignupRequest request);
+}

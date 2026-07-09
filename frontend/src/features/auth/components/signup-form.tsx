@@ -1,14 +1,16 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-// Import your decoupled validation schema and types
 import { signupSchema, type SignupFormValues } from "../schemas/signup-schema";
 
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { AuthHeader } from "./auth-header";
+import { useSignup } from "../hooks/useSignup";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 export function SignupForm() {
   const {
@@ -25,9 +27,30 @@ export function SignupForm() {
     },
   });
 
-  const onSubmit = (data: SignupFormValues) => {
-    console.log("Form Data:", data);
-  };
+  const signupMutation = useSignup();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: SignupFormValues) => {
+  try {
+    const user = await signupMutation.mutateAsync(data);
+
+    console.log("Signup successful:", user);
+    toast.success("Signup successful!");
+    navigate("/");
+    
+  } catch (error) {
+    console.error(error);
+    
+    if (error instanceof AxiosError && error.response?.status === 409) {
+      toast.error("Email already registered.", {
+        description: "Please log in or use a different email.",
+      });
+    }
+    else {
+      toast.error("Signup failed. Please try again.");
+    }
+  }
+};
 
   return (
     <div>

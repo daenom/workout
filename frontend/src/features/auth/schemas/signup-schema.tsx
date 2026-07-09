@@ -8,5 +8,4 @@ export const signupSchema = z.object({
   password: z.string().min(4, "WTF is this password"),
 });
 
-// Infer the TypeScript types directly from the schema for easy exporting
 export type SignupFormValues = z.infer<typeof signupSchema>;

@@ -1,0 +1,8 @@
+ALTER TABLE users
+RENAME COLUMN name TO firstname;
+
+ALTER TABLE users
+ADD COLUMN lastname VARCHAR(100),
+ADD COLUMN password_hash VARCHAR(255),
+ADD COLUMN role VARCHAR(50),
+ADD COLUMN updated_at TIMESTAMP;
