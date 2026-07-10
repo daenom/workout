@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // Import your login validation schema and types
 import { loginSchema, type LoginFormValues } from "../schemas/login-schema";
@@ -28,6 +28,8 @@ export function LoginForm() {
 
   const loginMutation = useLogin();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data: LoginFormValues) => {
     try{
       const user = await loginMutation.mutateAsync(data);
@@ -43,6 +45,8 @@ export function LoginForm() {
         email: user.email,
         role: user.role,
       });
+
+      navigate("/exercises", { replace: true });
       
     } catch (error) {
       console.error("Login failed:", error);

@@ -60,7 +60,7 @@ export function SiteHeader() {
                 </BreadcrumbList>
             </Breadcrumb>
             <div className="ml-auto" >
-                <NavUser user={{ name: "Cameron Norrie", email: "cameron.norrie@example.com", avatar: "" }} />
+                <NavUser />
             </div>
         </header>
     );

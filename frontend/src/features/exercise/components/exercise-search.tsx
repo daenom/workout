@@ -4,6 +4,8 @@ import {
     InputGroupAddon,
     InputGroupInput,
 } from "@/components/ui/input-group";
+import { Roles } from "@/features/auth/constants/roles";
+import { useAuthStore } from "@/features/auth/store/auth-store";
 import { ListFilterPlus, Plus, Search, X } from "lucide-react";
 
 interface ExerciseSearchProps {
@@ -15,6 +17,9 @@ export function ExerciseSearch({
     searchQuery,
     setSearchQuery
 }: ExerciseSearchProps){
+    const user = useAuthStore((state) => state.user);
+    const isAdmin = user?.role === Roles.ADMIN;
+
     return (
         <div className="flex mx-auto h-24 w-full max-w-3xl rounded-xl p-4 gap-2">
             <InputGroup className="max-w-xs">
@@ -50,10 +55,12 @@ export function ExerciseSearch({
             <Button>
                 <ListFilterPlus className="h-4 w-4" />
             </Button>
-            <Button className="ml-auto">
-                <Plus className="h-4 w-4" />
-                Add Exercise
-            </Button>
+            {isAdmin && (
+                <Button className="ml-auto">
+                    <Plus className="h-4 w-4" />
+                    Add Exercise
+                </Button>
+            )}
         </div>
     );
 }
