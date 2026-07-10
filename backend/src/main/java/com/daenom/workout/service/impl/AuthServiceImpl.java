@@ -8,6 +8,7 @@ import com.daenom.workout.dto.auth.LoginRequest;
 import com.daenom.workout.dto.auth.LoginResponse;
 import com.daenom.workout.dto.auth.SignupRequest;
 import com.daenom.workout.dto.auth.SignupResponse;
+import com.daenom.workout.dto.user.UserResponse;
 import com.daenom.workout.entity.User;
 import com.daenom.workout.exception.DuplicateResourceException;
 import com.daenom.workout.model.enums.Role;
@@ -61,5 +62,19 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtService.generateToken(user.getEmail());
 
         return new LoginResponse(accessToken, user.getId(), user.getFirstname(), user.getLastname(), user.getEmail(), user.getRole().name());
+    }
+
+    @Override
+    public UserResponse me(String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BadCredentialsException("User not found"));
+
+        return new UserResponse(
+            user.getId(),
+            user.getFirstname(),
+            user.getLastname(),
+            user.getEmail(),
+            user.getRole()
+        );
     }
 }

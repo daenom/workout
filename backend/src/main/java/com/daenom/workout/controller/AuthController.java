@@ -1,5 +1,6 @@
 package com.daenom.workout.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import com.daenom.workout.dto.auth.LoginRequest;
 import com.daenom.workout.dto.auth.LoginResponse;
 import com.daenom.workout.dto.auth.SignupRequest;
 import com.daenom.workout.dto.auth.SignupResponse;
+import com.daenom.workout.dto.user.UserResponse;
 import com.daenom.workout.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,5 +30,10 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
         return authService.login(request);
+    }
+
+    @GetMapping("/me")
+    public UserResponse me(Authentication authentication) {
+        return authService.me(authentication.getName());
     }
 }
