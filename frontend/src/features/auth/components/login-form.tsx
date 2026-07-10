@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { AuthHeader } from "./auth-header";
+import { useLogin } from "../hooks/useLogin";
+import { toast } from "sonner";
 
 export function LoginForm() {
   const {
@@ -23,9 +25,20 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.log("Login Data:", data);
-    // Send to your login API endpoint here
+  const loginMutation = useLogin();
+
+  const onSubmit = async (data: LoginFormValues) => {
+    try{
+      const user = await loginMutation.mutateAsync(data);
+      console.log("Login successful:", user);
+      toast.success("Login successful!");
+      localStorage.setItem("token", user.accessToken);
+    } catch (error) {
+      console.error("Login failed:", error);
+      toast.error("Login failed. Please check your credentials.");
+      // Handle login failure (e.g., show error message)
+    }
+    
   };
 
   return (

@@ -1,13 +1,18 @@
 package com.daenom.workout.service.impl;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.daenom.workout.dto.auth.LoginRequest;
+import com.daenom.workout.dto.auth.LoginResponse;
 import com.daenom.workout.dto.auth.SignupRequest;
 import com.daenom.workout.dto.auth.SignupResponse;
 import com.daenom.workout.entity.User;
 import com.daenom.workout.exception.DuplicateResourceException;
+import com.daenom.workout.model.enums.Role;
 import com.daenom.workout.repository.UserRepository;
+import com.daenom.workout.security.JwtService;
 import com.daenom.workout.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Override
     public SignupResponse signup(SignupRequest request) {
@@ -30,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
                 .lastname(request.lastname())
                 .email(request.email())
                 .passwordHash(passwordEncoder.encode(request.password()))
+                .role(Role.ROLE_USER)
                 .build();
 
         userRepository.save(user);
@@ -40,5 +47,19 @@ public class AuthServiceImpl implements AuthService {
             user.getLastname(),
             user.getEmail()
         );
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest request) {
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new BadCredentialsException("Invalid email or password"));
+
+        if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
+            throw new BadCredentialsException("Invalid email or password");
+        }
+
+        String accessToken = jwtService.generateToken(user.getEmail());
+
+        return new LoginResponse(accessToken, user.getId(), user.getFirstname(), user.getLastname(), user.getEmail(), user.getRole().name());
     }
 }

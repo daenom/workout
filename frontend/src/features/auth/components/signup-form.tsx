@@ -35,8 +35,8 @@ export function SignupForm() {
     const user = await signupMutation.mutateAsync(data);
 
     console.log("Signup successful:", user);
-    toast.success("Signup successful!");
-    navigate("/");
+    toast.success("Account created successfully! Please log in.");
+    navigate("/login");
     
   } catch (error) {
     console.error(error);
