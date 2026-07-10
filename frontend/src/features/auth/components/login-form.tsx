@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { AuthHeader } from "./auth-header";
 import { useLogin } from "../hooks/useLogin";
 import { toast } from "sonner";
+import { useAuthStore } from "../store/auth-store";
 
 export function LoginForm() {
   const {
@@ -32,7 +33,17 @@ export function LoginForm() {
       const user = await loginMutation.mutateAsync(data);
       console.log("Login successful:", user);
       toast.success("Login successful!");
+
+      const setUser = useAuthStore.getState().setUser;
       localStorage.setItem("token", user.accessToken);
+      setUser({
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        role: user.role,
+      });
+      
     } catch (error) {
       console.error("Login failed:", error);
       toast.error("Login failed. Please check your credentials.");

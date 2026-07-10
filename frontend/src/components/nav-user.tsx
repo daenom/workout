@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sidebar"
 import { CreditCardIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react"
 import { Button } from "./ui/button"
+import { useAuthStore } from "@/features/auth/store/auth-store"
 
 export function NavUser({
     user,
@@ -27,15 +28,19 @@ export function NavUser({
         avatar: string
     }
 }) {
+    const curruser = useAuthStore((state) => state.user)
+    const name = curruser ? `${curruser.firstname} ${curruser.lastname}` : "User"
     const { isMobile } = useSidebar()
+    const nameshort = name.split(" ").map((n) => n[0]).join("").toUpperCase()
+    const email = curruser ? curruser.email : ""
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger render={
                 <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-lg">
                 <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarImage src={user.avatar} alt={name} />
+                <AvatarFallback className="rounded-lg">{nameshort}</AvatarFallback>
             </Avatar>
             </Button>} />
             <DropdownMenuContent className="min-w-56 rounded-lg"
@@ -45,13 +50,13 @@ export function NavUser({
                     <DropdownMenuLabel className="p-0 font-normal">
                         <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                             <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src={user.avatar} alt={user.name} />
-                                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                <AvatarImage src={user.avatar} alt={name} />
+                                <AvatarFallback className="rounded-lg">{nameshort}</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-medium">{user.name}</span>
+                                <span className="truncate font-medium">{name}</span>
                                 <span className="truncate text-xs text-muted-foreground">
-                                    {user.email}
+                                    {email}
                                 </span>
                             </div>
                         </div>
