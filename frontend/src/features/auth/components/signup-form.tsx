@@ -11,6 +11,7 @@ import { AuthHeader } from "./auth-header";
 import { useSignup } from "../hooks/useSignup";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { Spinner } from "@/components/ui/spinner";
 
 export function SignupForm() {
   const {
@@ -124,7 +125,7 @@ export function SignupForm() {
             {/* Submit Button */}
             <Field>
               <Button type="submit" className="py-4" disabled={isSubmitting}>
-                {isSubmitting ? "Signing up..." : "Sign up"}
+                {isSubmitting ? <><Spinner/>Signing up</> : "Sign up"}
               </Button>
             </Field>
           </FieldGroup>

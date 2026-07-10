@@ -12,6 +12,7 @@ import { AuthHeader } from "./auth-header";
 import { useLogin } from "../hooks/useLogin";
 import { toast } from "sonner";
 import { useAuthStore } from "../store/auth-store";
+import { Spinner } from "@/components/ui/spinner";
 
 export function LoginForm() {
   const {
@@ -99,7 +100,7 @@ export function LoginForm() {
             {/* Submit Button */}
             <Field>
               <Button type="submit" className="py-4" disabled={isSubmitting}>
-                {isSubmitting ? "Signing in..." : "Sign in"}
+                {isSubmitting ? <><Spinner/>Signing in</>: "Sign in"}
               </Button>
             </Field>
           </FieldGroup>
