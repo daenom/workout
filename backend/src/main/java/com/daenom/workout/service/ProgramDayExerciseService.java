@@ -6,7 +6,7 @@ import com.daenom.workout.dto.programDayExercise.CreateProgramDayExerciseRequest
 import com.daenom.workout.entity.ProgramDayExercise;
 
 public interface ProgramDayExerciseService {
-    ProgramDayExercise createProgramDayExercise(CreateProgramDayExerciseRequest request);
+    ProgramDayExercise createProgramDayExercise(CreateProgramDayExerciseRequest request, Long programDayId);
 
     List<ProgramDayExercise> getProgramDayExercises(Long programDayId);
 

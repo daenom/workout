@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.daenom.workout.dto.programDay.CreateProgramDayRequest;
 import com.daenom.workout.dto.programDay.ProgramDayDetails;
+import com.daenom.workout.dto.programDayExercise.CreateProgramDayExerciseRequest;
 import com.daenom.workout.entity.ProgramDay;
 import com.daenom.workout.entity.ProgramDayExercise;
 import com.daenom.workout.exception.ResourceNotFoundException;
@@ -26,9 +27,14 @@ public class ProgramDayServiceImpl implements ProgramDayService {
     private final ProgramDayExerciseService programDayExerciseService;
 
     @Override
-    public ProgramDay createProgramDay(CreateProgramDayRequest request) {
-        ProgramDay programDay = programDayMapper.toEntity(request);
-        return programDayRepository.save(programDay);
+    public ProgramDay createProgramDay(CreateProgramDayRequest request, Long programId) {
+        ProgramDay programDay = programDayMapper.toEntity(request, programId);
+        ProgramDay savedDay = programDayRepository.save(programDay);
+
+        for(CreateProgramDayExerciseRequest exerciseRequest : request.exercises()) {
+            programDayExerciseService.createProgramDayExercise(exerciseRequest, savedDay.getId());
+        }
+        return savedDay;
     }
 
     @Override

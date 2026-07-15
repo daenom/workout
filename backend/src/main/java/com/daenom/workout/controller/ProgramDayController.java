@@ -26,11 +26,11 @@ public class ProgramDayController {
     private final ProgramDayService programDayService;
     private final ProgramDayMapper programDayMapper;
     
-    @PostMapping()
-    public ProgramDayResponse createProgramDay(@RequestBody CreateProgramDayRequest request) {
-        ProgramDay programDay = programDayService.createProgramDay(request);
-        return programDayMapper.toResponse(programDay);
-    }
+    // @PostMapping()
+    // public ProgramDayResponse createProgramDay(@RequestBody CreateProgramDayRequest request) {
+    //     ProgramDay programDay = programDayService.createProgramDay(request);
+    //     return programDayMapper.toResponse(programDay);
+    // }
 
     @GetMapping("/program/{programId}")
     public List<ProgramDayResponse> getProgramDay(@PathVariable Long programId) {

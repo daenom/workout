@@ -8,10 +8,10 @@ import com.daenom.workout.entity.ProgramDay;
 
 @Component
 public class ProgramDayMapper {
-    public ProgramDay toEntity(CreateProgramDayRequest request) {
+    public ProgramDay toEntity(CreateProgramDayRequest request, Long programId) {
         return ProgramDay.builder()
                 .name(request.name())
-                .programId(request.programId())
+                .programId(programId)
                 .description(request.description())
                 .programDayType(request.programDayType())
                 .orderIndex(request.orderIndex())
@@ -24,7 +24,8 @@ public class ProgramDayMapper {
                 programDay.getName(),
                 programDay.getDescription(),
                 programDay.getProgramDayType(),
-                programDay.getOrderIndex()
+                programDay.getOrderIndex(),
+                null
         );
     }
 }

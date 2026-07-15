@@ -28,12 +28,12 @@ public class ProgramDayExerciseController {
     private final ProgramDayExerciseService programDayExerciseService;
     private final ProgramDayExerciseMapper programDayExerciseMapper;
 
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProgramDayExerciseResponse createProgramDayExercise(@RequestBody CreateProgramDayExerciseRequest request) {
-        ProgramDayExercise programDayExercise = programDayExerciseService.createProgramDayExercise(request);
-        return programDayExerciseMapper.toResponse(programDayExercise);
-    }
+    // @PostMapping()
+    // @ResponseStatus(HttpStatus.CREATED)
+    // public ProgramDayExerciseResponse createProgramDayExercise(@RequestBody CreateProgramDayExerciseRequest request) {
+    //     ProgramDayExercise programDayExercise = programDayExerciseService.createProgramDayExercise(request);
+    //     return programDayExerciseMapper.toResponse(programDayExercise);
+    // }
 
     @GetMapping("/program-day/{programDayId}")
     public List<ProgramDayExerciseResponse> getProgramDayExercises(@PathVariable Long programDayId) {

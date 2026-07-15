@@ -7,7 +7,7 @@ import com.daenom.workout.dto.programDay.ProgramDayDetails;
 import com.daenom.workout.entity.ProgramDay;
 
 public interface ProgramDayService {
-    ProgramDay createProgramDay(CreateProgramDayRequest request);
+    ProgramDay createProgramDay(CreateProgramDayRequest request, Long programId);
 
     List<ProgramDay> getProgramDaysByProgramId(Long programId);
 

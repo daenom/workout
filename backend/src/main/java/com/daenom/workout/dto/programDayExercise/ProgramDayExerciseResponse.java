@@ -6,8 +6,8 @@ import com.daenom.workout.model.ExerciseSet;
 
 public record ProgramDayExerciseResponse(
     Long id,
-    Long programDayId,
     Long exerciseId,
+    String exerciseName,
     Integer orderIndex,
     List<ExerciseSet> sets
 ) {

@@ -1,5 +1,7 @@
 package com.daenom.workout.service;
 
-public interface UserService {
+import com.daenom.workout.entity.User;
 
+public interface UserService {
+    User getUserByEmail(String email);
 }

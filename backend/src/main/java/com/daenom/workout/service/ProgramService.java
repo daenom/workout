@@ -3,15 +3,17 @@ package com.daenom.workout.service;
 import java.util.List;
 
 import com.daenom.workout.dto.program.CreateProgramRequest;
+import com.daenom.workout.dto.program.CreateProgramResponse;
 import com.daenom.workout.dto.program.ProgramDetails;
+import com.daenom.workout.dto.program.ProgramResponse;
 import com.daenom.workout.entity.Program;
 
 public interface ProgramService {
-    Program createProgram(CreateProgramRequest request);
+    CreateProgramResponse createProgram(CreateProgramRequest request, String email);
 
     List<Program> getAllPrograms();
 
-    Program getProgramById(Long id);
+    ProgramResponse getProgramById(Long id);
 
     Program updateProgram(Long id, CreateProgramRequest request);
 

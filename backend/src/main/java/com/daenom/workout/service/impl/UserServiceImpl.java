@@ -7,6 +7,7 @@ import com.daenom.workout.dto.user.CreateUserRequest;
 import com.daenom.workout.dto.user.UserResponse;
 import com.daenom.workout.entity.User;
 import com.daenom.workout.exception.DuplicateResourceException;
+import com.daenom.workout.exception.ResourceNotFoundException;
 import com.daenom.workout.mapper.UserMapper;
 import com.daenom.workout.repository.UserRepository;
 import com.daenom.workout.service.UserService;
@@ -33,4 +34,10 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.toResponse(user);
     }
-}
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+    }
+}   

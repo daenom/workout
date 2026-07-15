@@ -1,12 +1,15 @@
 package com.daenom.workout.dto.programDay;
 
+import java.util.List;
+
+import com.daenom.workout.dto.programDayExercise.CreateProgramDayExerciseRequest;
 import com.daenom.workout.model.enums.ProgramDayType;
 
 public record CreateProgramDayRequest(
     String name,
-    Long programId,
     String description,
     ProgramDayType programDayType,
-    int orderIndex
+    int orderIndex,
+    List<CreateProgramDayExerciseRequest> exercises
 ) {
 }
