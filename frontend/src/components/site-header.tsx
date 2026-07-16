@@ -11,9 +11,12 @@ import { SidebarTrigger } from "./ui/sidebar";
 import { Separator } from "./ui/separator";
 import React from "react";
 import { NavUser } from "./nav-user";
+import { useAuthStore } from "@/features/auth/store/auth-store";
+import { Button } from "./ui/button";
 
 export function SiteHeader() {
     const { pathname } = useLocation();
+    const user = useAuthStore((state) => state.user);
 
     const segments = pathname.split("/").filter(Boolean);
 
@@ -59,8 +62,19 @@ export function SiteHeader() {
                     })}
                 </BreadcrumbList>
             </Breadcrumb>
-            <div className="ml-auto" >
-                <NavUser />
+            <div className="ml-auto flex items-center gap-2" >
+                {user ? (<NavUser />) : 
+                    <>
+                        <Button className="rounded-full">
+                            <Link to="/login">Login</Link>
+                        </Button>
+                        <div className="hidden sm:block">
+                        <Button variant="outline" className="rounded-full">
+                            <Link to="/signup">Sign Up</Link>
+                        </Button>
+                        </div>
+                    </>
+                }
             </div>
         </header>
     );
