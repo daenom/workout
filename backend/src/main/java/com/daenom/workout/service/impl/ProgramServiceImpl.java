@@ -3,6 +3,7 @@ package com.daenom.workout.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -15,13 +16,18 @@ import com.daenom.workout.dto.program.ProgramResponse;
 import com.daenom.workout.dto.programDay.CreateProgramDayRequest;
 import com.daenom.workout.dto.programDay.ProgramDayDetails;
 import com.daenom.workout.dto.programDay.ProgramDayResponse;
+import com.daenom.workout.dto.programDayExercise.CreateProgramDayExerciseRequest;
 import com.daenom.workout.dto.programDayExercise.ProgramDayExerciseResponse;
+import com.daenom.workout.entity.Exercise;
 import com.daenom.workout.entity.Program;
 import com.daenom.workout.entity.ProgramDay;
 import com.daenom.workout.entity.ProgramDayExercise;
 import com.daenom.workout.entity.User;
 import com.daenom.workout.exception.ResourceNotFoundException;
+import com.daenom.workout.mapper.ProgramDayExerciseMapper;
+import com.daenom.workout.mapper.ProgramDayMapper;
 import com.daenom.workout.mapper.ProgramMapper;
+import com.daenom.workout.repository.ExerciseRepository;
 import com.daenom.workout.repository.ProgramDayExerciseRepository;
 import com.daenom.workout.repository.ProgramDayRepository;
 import com.daenom.workout.repository.ProgramRepository;
@@ -38,23 +44,69 @@ public class ProgramServiceImpl implements ProgramService {
     private final ProgramRepository programRepository;
     private final ProgramDayRepository programDayRepository;
     private final ProgramDayExerciseRepository programDayExerciseRepository;
+    private final ExerciseRepository exerciseRepository;
     private final ProgramMapper programMapper;
+    private final ProgramDayMapper programDayMapper;
+    private final ProgramDayExerciseMapper programDayExerciseMapper;
 
     private final ProgramDayService programDayService;
     private final UserService userService;
 
     @Override
+    @Transactional
     public CreateProgramResponse createProgram(CreateProgramRequest request, String email) {
+        // 1. Get user context
         User user = userService.getUserByEmail(email);
+        
+        // 2. Step 1 Optimization: Gather all exercise IDs up-front to prevent the N+1 read loop
+        Set<Long> allExerciseIds = request.days().stream()
+            .flatMap(day -> day.exercises().stream())
+            .map(CreateProgramDayExerciseRequest::exerciseId)
+            .collect(Collectors.toSet());
+
+        // Batch fetch all required master exercises in 1 single query
+        List<Exercise> masterExercises = exerciseRepository.findAllById(allExerciseIds);
+        Map<Long, Exercise> exerciseMap = masterExercises.stream()
+            .collect(Collectors.toMap(Exercise::getId, ex -> ex));
+
+        // Validate that all incoming exercise IDs actually exist in our DB
+        if (exerciseMap.size() != allExerciseIds.size()) {
+            throw new RuntimeException("One or more invalid exercise IDs provided.");
+        }
+
+        // 3. Save parent Program
         Program program = programMapper.toEntity(request.name(), request.description(), user);
         Program savedProgram = programRepository.save(program);
         Long programId = savedProgram.getId();
 
-        for(CreateProgramDayRequest dayRequest : request.days()) {
-            programDayService.createProgramDay(dayRequest, programId);
+        // Staging lists for batch saving later
+        List<ProgramDayExercise> exercisesToSave = new ArrayList<>();
+
+        // 4. Process Days
+        for (CreateProgramDayRequest dayRequest : request.days()) {
+            // Map and save the day to get its ID (necessary for linking exercises relational style)
+            ProgramDay programDay = programDayMapper.toEntity(dayRequest, programId);
+            ProgramDay savedDay = programDayRepository.save(programDay);
+
+            // 5. Build the list of exercises for this day in memory
+            for (CreateProgramDayExerciseRequest exRequest : dayRequest.exercises()) {
+                Exercise exercise = exerciseMap.get(exRequest.exerciseId()); // Blazing fast memory map lookup
+                
+                ProgramDayExercise programDayExercise = programDayExerciseMapper.toEntity(
+                    exRequest, 
+                    exercise, 
+                    savedDay.getId()
+                );
+                exercisesToSave.add(programDayExercise);
+            }
         }
 
-        return programMapper.toResponse(savedProgram);
+        // 6. Step 2 Optimization: Batch-insert ALL exercises across ALL days in one single DB command
+        if (!exercisesToSave.isEmpty()) {
+            programDayExerciseRepository.saveAll(exercisesToSave);
+        }
+
+        return new CreateProgramResponse(savedProgram.getId(), savedProgram.getName());
     }
 
     @Override
