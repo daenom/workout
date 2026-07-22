@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.daenom.workout.dto.program.CreateProgramRequest;
 import com.daenom.workout.dto.program.CreateProgramResponse;
 import com.daenom.workout.dto.program.ProgramResponse;
-import com.daenom.workout.mapper.ProgramMapper;
 import com.daenom.workout.service.ProgramService;
 
 import jakarta.validation.Valid;
@@ -28,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProgramController {
     private final ProgramService programService;
-    private final ProgramMapper programMapper;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)

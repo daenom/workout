@@ -2,9 +2,7 @@ package com.daenom.workout.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.daenom.workout.dto.program.CreateProgramRequest;
 import com.daenom.workout.dto.program.CreateProgramResponse;
-import com.daenom.workout.dto.program.ProgramResponse;
 import com.daenom.workout.entity.Program;
 import com.daenom.workout.entity.User;
 

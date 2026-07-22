@@ -32,7 +32,6 @@ import com.daenom.workout.repository.ExerciseRepository;
 import com.daenom.workout.repository.ProgramDayExerciseRepository;
 import com.daenom.workout.repository.ProgramDayRepository;
 import com.daenom.workout.repository.ProgramRepository;
-import com.daenom.workout.service.ProgramDayService;
 import com.daenom.workout.service.ProgramService;
 import com.daenom.workout.service.UserService;
 
@@ -50,7 +49,6 @@ public class ProgramServiceImpl implements ProgramService {
     private final ProgramDayMapper programDayMapper;
     private final ProgramDayExerciseMapper programDayExerciseMapper;
 
-    private final ProgramDayService programDayService;
     private final UserService userService;
 
     @Override
