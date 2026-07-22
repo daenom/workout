@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daenom.workout.dto.program.CreateProgramRequest;
 import com.daenom.workout.dto.program.CreateProgramResponse;
-import com.daenom.workout.dto.program.ProgramDetails;
 import com.daenom.workout.dto.program.ProgramResponse;
-import com.daenom.workout.entity.Program;
 import com.daenom.workout.mapper.ProgramMapper;
 import com.daenom.workout.service.ProgramService;
 
-import java.util.List;
+import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -34,31 +32,23 @@ public class ProgramController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateProgramResponse createProgram(@RequestBody CreateProgramRequest request, Authentication authentication) {
+    public CreateProgramResponse createProgram(@Valid @RequestBody CreateProgramRequest request, Authentication authentication) {
         return programService.createProgram(request, authentication.getName());  
     }
 
-    // @GetMapping("/all")
-    // public List<ProgramResponse> getAllPrograms() {
-    //     return programService.getAllPrograms().stream()
-    //             .map(programMapper::toResponse)
-    //             .toList();
-    // }
-
     @GetMapping("/{id}")
-    public ProgramResponse getProgramDetails(@PathVariable Long id) {
-        return programService.getProgramById(id);
+    public ProgramResponse getProgramDetails(@PathVariable Long id, Authentication authentication) {
+        return programService.getProgramById(id, authentication.getName());
     }
 
-    // @PutMapping("/{id}")
-    // public ProgramResponse updateProgram(@PathVariable Long id, @RequestBody CreateProgramRequest request) {
-    //     Program program = programService.updateProgram(id, request);
-    //     return programMapper.toResponse(program);
-    // }
+    @PutMapping("/{id}")
+    public CreateProgramResponse updateProgram(@PathVariable Long id, @RequestBody CreateProgramRequest request, Authentication authentication) {
+        return programService.updateProgram(id, request, authentication.getName());
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProgram(@PathVariable Long id) {
-        programService.deleteProgram(id);
+    public void deleteProgram(@PathVariable Long id, Authentication authentication) {
+        programService.deleteProgram(id, authentication.getName());
     }
 }
